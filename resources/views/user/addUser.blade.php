@@ -14,6 +14,9 @@
                             </h1>
                         </div>
                     </div>
+                    <div class="card-header">
+                        <h3>Basic Information</h3>
+                    </div>
                     <div class="card-body">
                         <div class="d-flex flex-column">
                             <div class="form-group">
@@ -55,6 +58,9 @@
                         margin-top: 10px;">
                             </h1>
                         </div>
+                    </div>
+                    <div class="card-header">
+                        <h3>Personal Information</h3>
                     </div>
                     <div class="card-body">
                         <div class="d-flex flex-column">
@@ -123,15 +129,10 @@
                 </div>
             </div>
             <div class="col-12">
-
                 <div class="card-footer">
-                    <div class="row">
-                        <div class="col-lg-6 text-start">
-                            <button class="btn ripple btn-main-primary">
-                                < Go Back</button>
-                        </div>
-                        <div class="col-lg-6 d-flex justify-content-end">
-                            <button class="btn ripple btn-main-primary submitData">Submit</button>
+                        <div class="col-lg-12 d-flex justify-content-end">
+                            <button class="btn ripple btn-lg- submitData text-white" style="background-color:#11235A;"
+                                id="add_user">Add user</button>
                         </div>
                     </div>
                 </div>
@@ -144,6 +145,14 @@
         $(document).ready(function() {
 
             $(document).on("click", ".submitData", function(stop) {
+                const button = document.getElementById("add_user");
+                button.innerHTML =
+                    "<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Processing...";
+                button.setAttribute("disabled", "disabled");
+                setTimeout(function() {
+                    button.removeAttribute("disabled");
+                    button.innerHTML = "+ Add user";
+                }, 500);
                 stop.preventDefault();
                 var formdata = new FormData(formData);;
                 $.ajax({
@@ -155,16 +164,21 @@
                     success: function(res) {
 
                         if (res.status == 200) {
+                            button.removeAttribute("disabled");
+                            button.innerHTML = "Add user";
                             Swal.fire({
                                 toast: true,
                                 icon: "success",
-                                title: "Data inserted Successfully..!",
+                                title: "user added Successfully..!",
                                 animation: false,
                                 position: "top-right",
                                 showConfirmButton: false,
                                 timer: 3000,
                                 timerProgressBar: true,
                             });
+                            setInterval(function() {
+                                window.location.reload();
+                            }, 2000);
                         } else {
                             Swal.fire({
                                 toast: true,
@@ -181,6 +195,8 @@
                     error: function(error) { // remove the parameter here
                         var error = error.responseJSON;
                         $.each(error.errors, function(key, value) {
+                            $("#" + key).empty()
+
                             $("#" + key).append(value)
                         })
                     }

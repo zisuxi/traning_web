@@ -1,16 +1,14 @@
 @extends('layouts.app')
 @section('main-content')
-    <div class="page-header">
-        <div>
-            <h2 class="main-content-title tx-24 mg-b-5">View User</h2>
-        </div>
-    </div>
+
     <!-- End Page Header -->
     <!-- Row -->
-    <div class="row">
+    <div class="row mt-3">
         <div class="col-lg-12">
             <div class="card custom-card">
-
+                <div class="card-header">
+                    <h2 class="">Manage  Users</h2>
+                </div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table id="tabledata" class="table table-hover table-bordered">
@@ -29,7 +27,7 @@
                                     <td style="font-size: 12px;">city</td>
                                     <td style="font-size: 12px;">State</td>
                                     <td style="font-size: 12px;">Contact No</td>
-                                    <td>Action</td>
+                                    <td>Actions</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -38,13 +36,13 @@
                                     <tr>
                                         <td>{{ $meta->id }}</td>
                                         <td>{{ $array[$meta['id']]->dob }}</td>
-                                        <td>{{ $meta->user_name }}</td>
+                                        <td>{{ Ucfirst($meta->user_name) }}</td>
                                         <td>{{ $meta->email }}</td>
                                         <td>
                                             @if ($meta->Is_admin == 0)
-                                                <span class="badge badge-info p-2">{{ 'Admin' }}</span>
+                                                <span class="badge rounded-pill bg-info text-white mt-3 ml-3 p-2">{{ 'User' }}</span>
                                             @else
-                                                <span class="badge badge-info">{{ 'User' }}</span>
+                                                <span class="badge badge-info">{{ 'Admin' }}</span>
                                             @endif
                                         </td>
                                         <td>
@@ -52,7 +50,7 @@
                                                 <div class="form-group">
                                                     <div class="form-check ">
                                                         <input class="form-check-input" type="checkbox" id="SwitchCheck1"
-                                                            value="{{ $meta->id }}" >
+                                                            value="{{ $meta->id }}">
                                                         <label class="form-check-label"
                                                             id="category_status_{{ $meta->id }}"><b
                                                                 class="badge  text-white"
@@ -84,11 +82,11 @@
                                         <td>
                                             <div class="hstack gap-3 flex-wrap">
                                                 <a href="{{ 'user/' . $meta->id . '/edit' }}" data-toggle="tooltip"
-                                                    data-placement="top" title="edit"
+                                                    data-placement="top" title="Edit"
                                                     class="link-danger fs-15 editData"><i class="fas fa-edit"
                                                         style="font-size: 20px;"></i></a>
                                                 <a href="" class="link-success fs-15 deleteRecord"
-                                                    data-toggle="tooltip" data-placement="top" title="remove"
+                                                    data-toggle="tooltip" data-placement="top" title="Remove"
                                                     data-delete='{{ $meta->id }}'><i class="fas fa-trash  "
                                                         style="font-size: 20px;"></i></a>
                                             </div>
@@ -134,7 +132,7 @@
                                     Swal.fire({
                                         toast: true,
                                         icon: "success",
-                                        title: "Data Deleted Successfully..!",
+                                        title: "user Deleted Successfully..!",
                                         animation: false,
                                         position: "top-right",
                                         showConfirmButton: false,
@@ -146,7 +144,7 @@
                                     Swal.fire({
                                         toast: true,
                                         icon: "error",
-                                        title: "Data Not Deleted ..!",
+                                        title: "user Not Deleted ..!",
                                         animation: false,
                                         position: "top-right",
                                         showConfirmButton: false,

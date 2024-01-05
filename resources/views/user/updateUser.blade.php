@@ -6,9 +6,9 @@
         <div class="row">
             <div class="col-lg-6  mt-5">
                 <div class="card custom-card">
-                        <div class="card-header">
-                            <h4 class="display-5">Edit User</h4>
-                        </div>
+                    <div class="card-header">
+                        <h4 class="display-5">Edit User</h4>
+                    </div>
                     <div class="card-body">
                         <div class="d-flex flex-column">
                             <div class="form-group">
@@ -23,23 +23,6 @@
                                     value="{{ $edit_user->email }}">
                                 <strong class="text-danger" id="email"></strong>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6  mt-5">
-                <div class="card custom-card">
-                    <div class="row">
-                        <div class="col-md-6 ">
-                            <h1
-                                style="font-size: 26px;
-                        margin-left: 20px;
-                        margin-top: 10px;">
-                            </h1>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="d-flex flex-column">
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-group">
@@ -59,6 +42,19 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6  mt-5">
+                <div class="card custom-card">
+
+                    <div class="card-header">
+                        <h4 class="display-5">Edit Personal Information</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex flex-column">
+
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -109,17 +105,13 @@
             <div class="col-12">
 
                 <div class="card-footer">
-                    <div class="row">
-                        <div class="col-lg-6 text-start">
-                            <button class="btn ripple btn-main-primary">
-                                < Go Back</button>
-                        </div>
-                        <div class="col-lg-6 d-flex justify-content-end">
-                            <button class="btn ripple btn-main-primary updateData">Update</button>
-                        </div>
+                    <div class="col-lg-12 d-flex justify-content-end">
+                        <button class="btn ripple btn-main-primary updateData text-white"
+                            style="background-color:#11235A;" id="update_user">Update user</button>
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     </form>
 @endsection
@@ -128,6 +120,14 @@
         $(document).ready(function() {
             $(document).on("click", ".updateData", function(stop) {
                 stop.preventDefault();
+                const button = document.getElementById("update_user");
+                button.innerHTML =
+                    "<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Processing...";
+                button.setAttribute("disabled", "disabled");
+                setTimeout(function() {
+                    button.removeAttribute("disabled");
+                    button.innerHTML = "+Update user";
+                }, 500);
                 var updateId = $("#hidden").val();
                 var formdata = new FormData(formElement);
                 $.ajax({
@@ -138,10 +138,12 @@
                     contentType: false,
                     success: function(res) {
                         if (res.message == 200) {
+                            button.removeAttribute("disabled");
+                            button.innerHTML = "Update user";
                             Swal.fire({
                                 toast: true,
                                 icon: "success",
-                                title: "Data  Updated Successfully..!",
+                                title: "User  Updated Successfully..!",
                                 animation: false,
                                 position: "top-right",
                                 showConfirmButton: false,
@@ -149,10 +151,12 @@
                                 timerProgressBar: true,
                             });
                         } else {
+                            button.removeAttribute("disabled");
+                            button.innerHTML = "Update user";
                             Swal.fire({
                                 toast: true,
                                 icon: "success",
-                                title: "Data not  Updated Successfully..!",
+                                title: "User not  Updated ..!",
                                 animation: false,
                                 position: "top-right",
                                 showConfirmButton: false,

@@ -32,6 +32,10 @@ class FaqController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'question' => 'required',
+            'answer' => 'required',
+        ]);
         faq::create([
             "user_id" => Auth::user()->id,
             "question" => $request->question,

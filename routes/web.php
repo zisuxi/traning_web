@@ -19,7 +19,7 @@ use App\Http\Controllers\UploadVedioController;
 */
 
 Route::get('/', function () {
-    return redirect('login');
+    return view('auth.login');
 });
 
 Route::get('/dashboard', function () {
@@ -35,7 +35,7 @@ Route::resource("/user", UserController::class);
 Route::get("/changeStatus/{id}", [UserController::class, 'changeStatus']);
 Route::get("/userDetail/{id}", [UserController::class, 'userDetail']);
 Route::resource('/faq', FaqController::class);
-Route::resource('/video',UploadVedioController::class);
+Route::resource('/upload_video',UploadVedioController::class);
 
 
 require __DIR__ . '/auth.php';

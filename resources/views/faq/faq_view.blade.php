@@ -1,13 +1,11 @@
 @extends('layouts.app')
 @section('main-content')
-    <div class="page-header">
-        <div>
-            <h2 class="main-content-title tx-24 mg-b-5">View Faq</h2>
-        </div>
-    </div>
-    <div class="row">
+    <div class="row mt-3">
         <div class="col-lg-12">
-            <div class="card custom-card">
+            <div class="card custom-card ">
+                <div class="card-header">
+                    <h2 class="main-content-title tx-24 mg-b-5">Manage Faqs</h2>
+                </div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table id="tabledata" class="table table-hover table-bordered">
@@ -16,27 +14,28 @@
                                     <td style="font-size: 12px;">Id</td>
                                     <td style="font-size: 12px;">Question</td>
                                     <td style="font-size: 12px;">Answer</td>
-                                    <td style="font-size: 12px;">Action</td>
+                                    <td style="font-size: 12px;">Actions</td>
                                 </tr>
                             </thead>
                             <tbody>
+
                                 @php
                                     $num = 1;
                                 @endphp @forelse ($faq as $fa)
                                     <tr>
                                         <td>{{ $num++ }}</td>
-                                        <td>
-                                            {{ $fa->question }}
+                                        <td style="text-wrap: balance">
+                                            {{ Ucfirst($fa->question) }}
                                         </td>
                                         <td>
-                                            <button class="btn  detail_faq" data-toggle="tooltip" data-placement="top"
-                                                title="Answer detail " data-detail='{{ $fa->id }}'><i
-                                                    class="fa-regular fa-eye-slash"></i>
+                                            <button class="btn  detail_faq " style="" data-toggle="tooltip"
+                                                data-placement="top" title="Answer detail "
+                                                data-detail='{{ $fa->id }}'><i class="fa-regular fa-eye-slash"></i>
                                             </button>
                                         </td>
                                         <td>
                                             <button class="btn  deleteBtn" data-delete='{{ $fa->id }}'
-                                                data-toggle="tooltip" data-placement="top" title="remove"> <i
+                                                data-toggle="tooltip" data-placement="top" title="Remove"> <i
                                                     class="fa-solid fa-trash" style="font-size: 20px;"></i> </button>
                                         </td>
                                     </tr>
@@ -50,31 +49,33 @@
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="mb-0">
-                                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne"
-                                                aria-expanded="true" aria-controls="collapseOne" id="Detail_question">
-                                            </button>
-                                        </h5> <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <button type="button" class="close" id="closeModal" data-dismiss="modal"
+                                            aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <div id="accordion">
-                                            <div class="card">
-
-                                                <div id="collapseOne" class="" aria-labelledby="headingOne"
-                                                    data-parent="#accordion">
-                                                    <div class="card-body" id="detail_answer">
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-12">
+                                                <div class="card custom-card">
+                                                    <div class="card-body">
+                                                        <div aria-multiselectable="true" class="collapse show" id="accordion" role="tablist">
+                                                            <div class="card show"> <!-- Add the 'show' class here -->
+                                                                <div class="card-header" id="headingOne" role="tab">
+                                                                    <a aria-controls="collapseOne" aria-expanded="true" data-bs-toggle="collapse" href="#collapseOne" id="Detail_question"></a>
+                                                                </div>
+                                                                <div aria-labelledby="headingOne" class="collapse show" data-bs-parent="#accordion" id="collapseOne" role="tabpanel"> <!-- Add the 'show' class here -->
+                                                                    <div class="card-body" id="detail_answer"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- accordion -->
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -90,7 +91,6 @@
             $(document).on("click", ".detail_faq", function(e) {
                 e.preventDefault();
                 var Detail_id = $(this).data('detail');
-
                 $.ajax({
                     url: "/faq/" + Detail_id + "show",
                     method: "GET",
@@ -105,11 +105,11 @@
                             $("#Detail_answer").empty();
                             $("#Detail_question").append(
                                 "<span class='badge badge-primary mx-3 '>Question </span>" +
-                                '<span style="font-size:17px; font-weight:bold;     color: #eb6f33">' +
-                                res.data.question + '</span>')
+                                '<strong style="font-size:14px;    color:#080808">' +
+                                res.data.question + '</strong>')
                             $("#detail_answer").append(
                                 "<span class='badge badge-primary mx-3'>Answer </span>" +
-                                '<span style="font-size:16px; font-weight:bold; color: #69697b;">' +
+                                '<span style="font-size:14px; color:#0b0b12;">' +
                                 res.data.answer + '</span>')
                         }
 
@@ -167,6 +167,9 @@
                         });
                     }
                 })
+            })
+            $(document).on("click", "#closeModal", function() {
+                $("#exampleModalLong").modal("hide")
             })
         })
     </script>

@@ -188,6 +188,8 @@
 	}
 	.main-sidebar-hide .side-menu .main-logo .icon-logo{
 		display:block;
+        width: 89px;
+    height: 43px;
 		margin: 0 auto;
 		text-align: center;
 	}
@@ -268,5 +270,5 @@
 	}
 }
 *::-ms-backdrop, .side-header{
-	position:relative !important; 
+	position:relative !important;
 }

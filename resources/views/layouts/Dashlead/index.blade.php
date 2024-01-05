@@ -19,6 +19,9 @@
     <!---Switcher css-->
     <link href="{{ asset('/assets/switcher/css/switcher.css') }}" rel="stylesheet">
     <link href="{{ asset('/assets/switcher/demo.css') }}" rel="stylesheet">
+    <link href="{{ asset('/assets/plugins/datatable/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+
 </head>
 
 <body>
@@ -26,62 +29,77 @@
     <div class="main-sidebar main-sidebar-sticky side-menu">
         <div class="sidemenu-logo">
             <a class="main-logo" href="{{ url('index.html') }}">
-                <img src="{{ asset('/assets/img/brand/logo.png') }}" class="header-brand-img desktop-logo"
+                <img src="{{ asset('/assets/img/brand/logo-transparent-png.png') }}"
+                    class="header-brand-img desktop-logo" alt="logo">
+                <img src="{{ asset('/assets/img/brand/logo-transparent-png.png') }}" class="header-brand-img icon-logo"
                     alt="logo">
-                <img src="{{ asset('/assets/img/brand/icon.png') }}" class="header-brand-img icon-logo" alt="logo">
-                <img src="{{ asset('/assets/img/brand/logo-light.png') }}"
+                <img src="{{ asset('/assets/img/brand/logo-transparent-png.png') }}"
                     class="header-brand-img desktop-logo theme-logo" alt="logo">
-                <img src="{{ asset('/assets/img/brand/icon-light.png') }}"
+                <img src="{{ asset('/assets/img/brand/logo-transparent-png.png') }}"
                     class="header-brand-img icon-logo theme-logo" alt="logo">
             </a>
         </div>
         <div class="main-sidebar-body ">
             <ul class="nav">
                 <li class="nav-label">Dashboard</li>
-                <li class="nav-item show">
-                    <a class="nav-link" href="{{ url('index.html') }} "><i class="fe fe-airplay "></i><span
-                            class="sidemenu-label ">Dashboard</span></a>
+                <li class="nav-item ">
+                    <a class="nav-link" href="{{ url('index.html') }} "><i class="fe fe-airplay "></i><strong
+                            class="sidemenu-label ">Dashboard</strong></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link with-sub " href="{{ url('#') }}"><i class="fa-solid fa-user"></i><span
-                            class="sidemenu-label">User </span><i class="angle fe fe-chevron-right"></i></a>
-                    <ul class="nav-sub">
-                        <li class="nav-sub-item">
-                            <a class="nav-sub-link " href="{{ url('/user/create') }}">Add User</a>
-                        </li>
-                        <li class="nav-sub-item">
-                            <a class="nav-sub-link " href="{{ url('/user') }}">View User</a>
-                        </li>
-                    </ul>
-                </li>
+                @if (Auth::user()->Is_admin == 1)
+                    <li class="nav-item">
+                        <a class="nav-link with-sub " href="{{ url('#') }}"><i class="fa-solid fa-user"></i><span
+                                class="sidemenu-label">USER </span><i class="angle fe fe-chevron-right"></i></a>
+                        <ul class="nav-sub">
+                            <li class="nav-sub-item">
+                                <a class="nav-sub-link " href="{{ url('/user/create') }}">Add User</a>
+                            </li>
+                            <li class="nav-sub-item">
+                                <a class="nav-sub-link " href="{{ url('/user') }}">View Users</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link with-sub" href="{{ url('#') }}"><i class="fa fa-question-circle"
+                                aria-hidden="true"></i><span class="sidemenu-label">FAQS </span><i
+                                class="angle fe fe-chevron-right"></i></a>
+                        <ul class="nav-sub">
+                            <li class="nav-sub-item">
+                                <a class="nav-sub-link " href="{{ url('/faq/create') }}">Add Faq</a>
+                            </li>
+                            <li class="nav-sub-item">
+                                <a class="nav-sub-link " href="{{ url('/faq') }}">View Faqs</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link with-sub " href=""><i class="fa fa-video-camera"
+                                aria-hidden="true"></i><span class="sidemenu-label">VIDEOS </span><i
+                                class="angle fe fe-chevron-right"></i></a>
+                        <ul class="nav-sub">
+                            <li class="nav-sub-item">
+                                <a class="nav-sub-link " href="{{ url('/upload_video/create') }}">Add Video</a>
+                            </li>
+                            <li class="nav-sub-item">
+                                <a class="nav-sub-link " href="{{ url('upload_video') }}">View Vedios</a>
+                            </li>
 
-                <li class="nav-item">
-                    <a class="nav-link with-sub" href="{{ url('#') }}"><i class="fa fa-question-circle"
-                            aria-hidden="true"></i><span class="sidemenu-label">Faq </span><i
-                            class="angle fe fe-chevron-right"></i></a>
-                    <ul class="nav-sub">
-                        <li class="nav-sub-item">
-                            <a class="nav-sub-link " href="{{ url('/faq/create') }}">Add Faq</a>
-                        </li>
-                        <li class="nav-sub-item">
-                            <a class="nav-sub-link " href="{{ url('/faq') }}">View Faq</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link with-sub " href=""><i class="fa fa-video-camera"
-                            aria-hidden="true"></i><span class="sidemenu-label">Vedio </span><i
-                            class="angle fe fe-chevron-right"></i></a>
-                    <ul class="nav-sub">
-                        <li class="nav-sub-item">
-                            <a class="nav-sub-link " href="{{ url('/video/create') }}">Add vedio</a>
-                        </li>
-                        {{-- <li class="nav-sub-item">
-                            <a class="nav-sub-link " href="{{ url('') }}">View Faq</a>
-                        </li> --}}
+                        </ul>
+                    </li>
+                @else
+                    <li class="nav-item">
+                        <a class="nav-link with-sub " href=""><i class="fa fa-video-camera"
+                                aria-hidden="true"></i><span class="sidemenu-label">VIDEOS </span><i
+                                class="angle fe fe-chevron-right"></i></a>
+                        <ul class="nav-sub">
 
-                    </ul>
-                </li>
+                            <li class="nav-sub-item">
+                                <a class="nav-sub-link " href="{{ url('/upload_video') }}">View Vedios</a>
+                            </li>
+
+                        </ul>
+                    </li>
+                @endif
             </ul>
         </div>
     </div>
@@ -123,7 +141,7 @@
                                 @csrf
                                 <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault(); this.closest('form').submit();">
-                                    <i class="fas fa-sign-out mr-3"></i> {{ __('Sign Out') }}
+                                    <i class="fas fa-sign-out mr-3"></i><strong>{{ __('Sign Out') }}</strong>
                                 </x-dropdown-link>
                             </form>
 
@@ -320,7 +338,8 @@
     <script src="{{ asset('/assets/switcher/js/switcher.js') }}"></script>
     <!-- Custom js-->
     <script src="{{ asset('/assets/js/custom.js') }}"></script>
-
+    <script src="{{ asset('/assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('/assets/plugins/datatable/js/dataTables.bootstrap5.min.js') }}"></script>
 
 </body>
 

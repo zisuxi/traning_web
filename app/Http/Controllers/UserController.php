@@ -53,7 +53,7 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => $request->password,
             'Is_admin' => 0,
-            'Is_active' => 0,
+            'Is_active' => 1,
         ]);
 
         $user = User::where("email", $request->email)->first();
@@ -125,8 +125,7 @@ class UserController extends Controller
             $user_update = User::where('id', $id)->update([
                 'user_name' => $request->user_name,
                 'email' => $request->email,
-                'Is_admin' => 0,
-                'Is_active' => 0,
+               
             ]);
         }
         return response()->json([

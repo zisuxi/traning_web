@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-ini_set('memory_limit', '-1');
-ini_set('max_execution_time', '0');
-
 use App\Models\upload_vedio;
+use App\Models\faq;
 use Illuminate\Http\Request;
 
 class UploadVedioController extends Controller
@@ -15,8 +13,9 @@ class UploadVedioController extends Controller
      */
     public function index()
     {
-        return view ('');
+        $data = upload_vedio::all();
 
+        return view('vedio.view_uploadedVedio', compact('data'));
     }
 
     /**
@@ -33,6 +32,11 @@ class UploadVedioController extends Controller
     public function store(Request $request)
     {
 
+        $request->validate([
+            'title' => 'required',
+            'upload_vedio' => 'required',
+        ]);
+
         if ($request->file('upload_vedio')) {
             $upload_vedio = $request->file('upload_vedio');
             $vedio_ext = $upload_vedio->getClientOriginalExtension();
@@ -42,11 +46,8 @@ class UploadVedioController extends Controller
                 'title' => $request->title,
                 'vedio' => $vedio_name,
             ]);
-
-            return response()->json(['status' => 'success'], 200);
+            return response()->json(['message' => 200]);
         }
-
-        return response()->json(['status' => 'error', 'message' => 'No video uploaded.'], 400);
     }
 
     /**
@@ -60,7 +61,7 @@ class UploadVedioController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(upload_vedio $upload_vedio)
+    public function edit($id)
     {
         //
     }
@@ -76,8 +77,21 @@ class UploadVedioController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(upload_vedio $upload_vedio)
+    public function destroy(upload_vedio $upload_vedio, $id)
     {
-        //
+
+        $get_video = upload_vedio::findOrFail($id);
+        $delete_video = upload_vedio::where('id', $get_video->id)->delete();
+        if ($delete_video) {
+            unlink(public_path() . '/video/' . $get_video->vedio);
+            return 200;
+        } else {
+            return 300;
+        }
+    }
+    public  function uservedio()
+    {
+        $vedio =   upload_vedio::all();
+        return view('user_video.vedio', compact('vedio'));
     }
 }
